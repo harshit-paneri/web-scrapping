@@ -39,6 +39,6 @@ const main = async () => {
     })
 
     await browser.close();
-    fs.writeFileSync('output.csv', parse(data));
+    fs.writeFileSync('output.json', JSON.stringify(data, null, 2), 'utf-8');
 }
 main();
