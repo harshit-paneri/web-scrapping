@@ -26,28 +26,28 @@ const main = async () => {
     await page.waitForTimeout(5000)
 
     const $ = load(await page.content())
-    // $('div[#_4rR01T]').each((_, el)=>{
-    //   console.log($(el).text())
-    // })
-    $('div._4rR01T').each((_, el) => {
-      console.log($(el).text());
-    });
 
-    // await page.click('button[type="submit"]','mouse');
-    // await page.waitForNavigation();
+    $('._1fQZEK').each((index, element) => {
+      const name = $('div._4rR01T', element).text();
+      const price = $('div._30jeq3._1_WHN1', element).text()
+      console.log({name, price});
+    })
+
+
     // await page.waitForSelector('div._3wU53n');
     // await page.waitForSelector('div._1vC4OE._2rQ-NK');
     // const names = await page.evaluate(() => {
-    //     const names = Array.from(document.querySelectorAll('div._3wU53n'));
+    //     const names = Array.from(document.querySelectorAll('div._4rR01T'));
+    //     console.log(names);
     //     return names.map(name => name.innerText);
     // });
     // const prices = await page.evaluate(() => {
-    //     const prices = Array.from(document.querySelectorAll('div._1vC4OE._2rQ-NK'));
+    //     const prices = Array.from(document.querySelectorAll('div._30jeq3._1_WHN1'));
     //     return prices.map(price => price.innerText);
     // });
     // console.log(names);
     // console.log(prices);
-    // await browser.close();
+    await browser.close();
 
 }
 main();
