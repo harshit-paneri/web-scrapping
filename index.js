@@ -1,5 +1,6 @@
 const { default: puppeteer } = require('puppeteer')
 const { load } = require('cheerio')
+const fs = require('fs');
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -24,30 +25,19 @@ const main = async () => {
     await page.type('input[type="text"]', 'iphone')
     await page.keyboard.press('Enter')
     await page.waitForTimeout(5000)
-
+    const data = [];
     const $ = load(await page.content())
 
     $('._1fQZEK').each((index, element) => {
       const name = $('div._4rR01T', element).text();
       const price = $('div._30jeq3._1_WHN1', element).text()
-      console.log({name, price});
+      const image = $(element).find('img').attr('src');
+      const desc = $('li.rgWa7D', element).text()
+      // console.log({name, price, image, desc});
+      data.push({ name, price, image, desc });
     })
 
-
-    // await page.waitForSelector('div._3wU53n');
-    // await page.waitForSelector('div._1vC4OE._2rQ-NK');
-    // const names = await page.evaluate(() => {
-    //     const names = Array.from(document.querySelectorAll('div._4rR01T'));
-    //     console.log(names);
-    //     return names.map(name => name.innerText);
-    // });
-    // const prices = await page.evaluate(() => {
-    //     const prices = Array.from(document.querySelectorAll('div._30jeq3._1_WHN1'));
-    //     return prices.map(price => price.innerText);
-    // });
-    // console.log(names);
-    // console.log(prices);
     await browser.close();
-
+    fs.writeFileSync('output.json', JSON.stringify(data, null, 2), 'utf-8');
 }
 main();
